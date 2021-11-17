@@ -29,12 +29,66 @@ mongoose.connect('mongodb://localhost/mycargarage', {useNewUrlParser: true, useU
 const  Playlist = new mongoose.model("PlayList ",playlistSchema);
 
 //create document or insert
+const createDocument = async () =>{
 
-const reactPlaylist  = new Playlist({
-    name : "Python",
-    type :  "Back End",
-    author : "Guido Van Rossum",
-    active : true
+    try{
+        const jsPlaylist = new Playlist({
+            name : "javascript",
+            type : "Front End",
+            author : "James Gosling",
+            active : true
+        })
+        const reactPlaylist  = new Playlist({
+            name : "React Js",
+            type :  "Back End",
+            author : "James Gosling",
+            active : true
+        
 
-});
-reactPlaylist.save();
+        })  
+
+        const nodePlaylist = new Playlist({
+            name : "nodeJS",
+            type : "Back End",
+            author :"patrick naughton",
+            active : true
+        })
+        const mongoosePlaylist = new Playlist({
+            name : "Database",
+            type : "Back end",
+            author : "mike shridon",
+            active : true
+        })
+   // const result = await reactPlaylist.save();
+   // save() method used only when onlyt one document is inserted
+    
+ const result  = await Playlist.insertMany([jsPlaylist, reactPlaylist, nodePlaylist,mongoosePlaylist])
+   console.log(result);
+// console.log("Fetch the recorded...!!");
+// Playlist.find(function(err, res){
+//     console.log(res);
+// })
+}
+catch(err)
+{
+    console.log(err);
+}
+
+}
+// createDocument();
+
+const getDocument = async () =>{
+   // const result  = await Playlist.find();
+   try{
+   const result = await Playlist.find({type :"Back-End"})
+   .select({name:1})
+   .limit(1);
+    console.log(result);
+   }
+   catch(err)
+   {
+       console.log(err);
+   }
+}
+
+getDocument();
